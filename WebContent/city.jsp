@@ -13,7 +13,29 @@
 <title>Manage City</title>
 <%@ include file="links.jsp"%>
 <script>
-	
+	function del(id) {
+		// alert(id);
+
+		if (window.XMLHttpRequest) {
+			xmlhttp = new XMLHttpRequest();
+		} else {
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+
+		xmlhttp.onreadystatechange = function() {
+
+			// alert(xmlhttp.readyState + " " + xmlhttp.status);
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				//alert("hello4");
+				document.getElementById("showtable").innerHTML = xmlhttp.responseText;
+
+			}
+		};
+		xmlhttp.open("GET", "delcity.jsp?delete_id=" + id, true);
+
+		xmlhttp.send();
+		//alert("return");
+	}
 	function showTable() {
 		var str = document.getElementById("state1").value;
 		if (str == "") {
