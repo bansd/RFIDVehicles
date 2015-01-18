@@ -22,7 +22,34 @@
 <title>Manage Toll Price</title>
 <%@ include file="links.jsp"%>
 <script>
-	
+	function showOriginCity() {
+		var str = document.getElementById("originstate").value;
+		var ocityid = <%=origincityid %>;
+		if (str == "") {
+			document.getElementById("origincity").innerHTML = "";
+			return;
+		}
+
+		if (window.XMLHttpRequest) {
+			// code for IE7+, Firefox, Chrome, Opera, Safari
+			xmlhttp = new XMLHttpRequest();
+		} else {
+			// code for IE6, IE5
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				document.getElementById("origincity").innerHTML = xmlhttp.responseText;
+				//document.getElementById("destinationcity").innerHTML = xmlhttp.responseText;
+			}
+		};
+		xmlhttp.open("GET", "getorigincity.jsp?q=" + str+"&city="+ocityid, true);
+		xmlhttp.send();
+	}
+	function showDestCity() {
+		
+	}
 </script>
 </head>
 <body>
