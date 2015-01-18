@@ -48,7 +48,29 @@
 		xmlhttp.send();
 	}
 	function showDestCity() {
+		var str = document.getElementById("destinationstate").value;
+		var ocity = document.getElementById("ocity").value;
+		var dcity = <%= descityid%>
+		if (str == "") {
+			document.getElementById("destinationcity").innerHTML = "";
+			return;
+		}
+		if (window.XMLHttpRequest) {
+			// code for IE7+, Firefox, Chrome, Opera, Safari
+			xmlhttp = new XMLHttpRequest();
+		} else {
+			// code for IE6, IE5
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				document.getElementById("destinationcity").innerHTML = xmlhttp.responseText;
+			}
+		};
 		
+		xmlhttp.open("GET", "getdestcity.jsp?q=" + str+"&ocity="+ocity+"&editcityid="+dcity, true);
+		xmlhttp.send();
 	}
 </script>
 </head>
