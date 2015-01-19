@@ -1,7 +1,7 @@
 
 <%
 	if (session.getAttribute("admin_name") == null) {
-		response.sendRedirect("adminlogin.jsp");
+		response.sendRedirect("logout.jsp");
 	}
 %>
 <%@page import="java.util.ArrayList"%>
@@ -14,7 +14,45 @@
 		Statement st = connjdbc.getDatacn();
 		ResultSet rs = null;
 %>
-
+<%
+		int check = 0;
+			int id = 0;
+			String vehicletype = null;
+			int origincityid = 0;
+			int descityid = 0;
+			int originstateid = 0;
+			int deststateid = 0;
+			String traveltype = null;
+			String typeoftransport = null;
+			String tollamount = null;
+			
+			String editid = request.getParameter("edit_id");
+			if (editid != null) {
+				check = 5;
+				session.setAttribute("edit_id", editid);
+				rs = st.executeQuery("Select * from tolltax_cost_per_vehicle where vehicle_type_id ="+ editid);
+				while (rs.next()) {
+					id = rs.getInt(1);
+					vehicletype = rs.getString(2);
+					origincityid = rs.getInt(3);
+					descityid = rs.getInt(4);
+					traveltype = rs.getString(5);
+					typeoftransport = rs.getString(6);
+					tollamount = rs.getString(7);
+				}
+				rs.close();
+				rs = st.executeQuery("Select state_id from city_info where city_id ="+ origincityid);
+				while(rs.next()){
+					originstateid = rs.getInt(1);
+				}
+				
+				rs.close();
+				rs = st.executeQuery("Select state_id from city_info where city_id ="+ descityid);
+				while(rs.next()){
+					deststateid = rs.getInt(1);
+				}
+			}
+	%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -95,24 +133,14 @@
 		xmlhttp.open("GET", "getdestcity.jsp?q=" + str+"&ocity="+ocity+"&editcityid="+dcity, true);
 		xmlhttp.send();
 	}
-
 </script>
 </head>
 <body>
 	<%@ include file="header.jsp" %>
-	<li><a href="state.jsp" onselect=""><span>Manage State</span>
-	</a></li>
-	<li><a href="city.jsp"></i><span>Manage City</span> </a></li>
-	
-	<li class="active"><a href="toll.jsp"><span>Manage Toll
-				Tax</span></a></li>
-	
-	</ul>
-	</div>
-	<!-- /container -->
-	</div>
-	<!-- /subnavbar-inner -->
-	</div>
+	<script type="text/javascript">
+		var d = document.getElementById("toll");
+		d.className = d.className + "active";	
+	</script>
 	
 	<center>
 		<table style="width: 100%">
@@ -136,7 +164,7 @@
 													ArrayList<String> state_name = new ArrayList<String>();
 													rs = st.executeQuery("select * from state_info");
 													while (rs.next()) {%>
-														<option  value="<%=rs.getInt(1)%>">
+														<option <%=rs.getInt(1)==originstateid?"selected":"" %> value="<%=rs.getInt(1)%>">
 															<%=rs.getString(2)%></option>
 												
 												<%		ids.add(rs.getInt(1));
@@ -153,7 +181,15 @@
 													name="origin_city_name" id="ocity"
 													onChange="showDestCity()">
 													<option value="-1">Select City</option>
+													<%if(check>0){
+														rs = st.executeQuery("select * from city_info where city_id="+origincityid);
+														while(rs.next()){%>
+															<option value="<%=origincityid%>" selected><%=rs.getString(2) %></option>
+														<%}
+														rs.close();
+													}
 													
+													%>
 												</select>
 											</div>
 										</div>
@@ -168,6 +204,10 @@
 												name="state_name" id="destinationstate"
 												onChange="showDestCity()">
 												<option>Select State</option>
+												<%
+													for (int j = 0; j < ids.size(); j++) {%>
+														<option <%=ids.get(j)==deststateid?"selected":"" %> value="<%=ids.get(j) %>"><%=state_name.get(j) %></option>
+												<%	}%>
 												
 											</select>
 										</div>
@@ -178,7 +218,15 @@
 												<div id="destinationcity">
 													<select name="destination_city_name" id="dcity">
 														<option value="-1">Select City</option>
-														
+														<%if(check>0){
+														rs = st.executeQuery("select * from city_info where city_id="+descityid);
+														while(rs.next()){%>
+															<option value="<%=descityid%>" selected><%=rs.getString(2) %></option>
+														<%}
+														rs.close();
+													}
+													
+													%>
 													</select>
 												</div>
 											</div>
@@ -191,11 +239,11 @@
 										<div class="field" style="margin-left: 20px">
 											<label for="vehicle_type">Vehicle type:</label> <select
 												name="vehicle_type" class="login">
-												<option   value="Car/Van/Jeeps">Car/Van/Jeeps</option>
-												<option value="Light Motor Vehicles">Light Motor
+												<option  <%if(check>0){out.println(vehicletype.equals("Car/Van/Jeeps")?"selected":"");}%> value="Car/Van/Jeeps">Car/Van/Jeeps</option>
+												<option <%if(check>0){out.println(vehicletype.equals("Light Motor Vehicles")?"selected":"");}%> value="Light Motor Vehicles">Light Motor
 													Vehicles</option>
-												<option value="Bus/Trucks" >Bus/Trucks</option>
-												<option value="Multi Excel Vehicles">Multi Excel
+												<option <%if(check>0){out.println(vehicletype.equals("Bus/Trucks")?"selected":"");}%> value="Bus/Trucks" >Bus/Trucks</option>
+												<option <%if(check>0){out.println(vehicletype.equals("Multi Excel Vehicles")?"selected":"");}%> value="Multi Excel Vehicles">Multi Excel
 													Vehicles</option>
 											</select>
 										</div>
@@ -206,17 +254,21 @@
 										<div class="field"
 											style="float: left; position: relative; margin-left: 20px">
 											<label for="travel_type">Travel Type: </label> <input
-												type="radio" name="travel_type"  value="One_way" >One_way
+												type="radio" name="travel_type"  value="One_way" <%if(check==0){}else{if(traveltype.equals("One_way")){%>
+															checked="checked" <%} }%>>One_way
 											&nbsp; &nbsp; &nbsp;&nbsp; <input type="radio"
-												name="travel_type" value="Round_trip">Round_trip
+												name="travel_type" value="Round_trip" <%if(check==0){}else{if(traveltype.equals("Round_trip")){%>
+															checked="checked" <%} }%>>Round_trip
 										</div>
 
 										<div class="field"
 											style="float: left; position: relative; margin-left: 70px">
 											<label for="transport_type">Transport Type: </label> <input
-												type="radio" name="transport_type" value="Private" >Private
+												type="radio" name="transport_type" value="Private"  <%if(check==0){}else{if(typeoftransport.equals("Private")){%>
+															checked="checked" <%} }%>>Private
 											&nbsp; &nbsp; &nbsp; &nbsp; <input type="radio" 
-												name="transport_type" value="Public" >Public
+												name="transport_type" value="Public" <%if(check==0){}else{if(typeoftransport.equals("Public")){%>
+															checked="checked" <%} }%>>Public
 
 										</div>
 									</td>
@@ -226,14 +278,14 @@
 										<div class="field" style="margin-left: 20px">
 											<b><label for="toll_amount">Toll amount:</label></b> <input
 												type="text" id="Toll_amount" name="toll_amount"
-												placeholder="Enter Toll amount"  class="login">
+												placeholder="Enter Toll amount" value="<%if(check>0){out.println(tollamount);}else{} %>" class="login">
 										</div>
 									</td>
 								</tr>
 								<tr>
 									<td>
 										<div class="field" style="margin-left: 20px">
-											<input type="submit" name="submit" value="Add" %>
+											<input type="submit" name="submit" value=<%=check>0?"Update":"Add" %>
 												class="button btn btn-primary btn-large">
 										</div>
 									</td>
