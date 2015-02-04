@@ -40,7 +40,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Manage Message content</title>
+<title>Manage rfid receiver</title>
 <%@ include file="links.jsp"%>
 <style>
 #map-canvas {
@@ -48,8 +48,39 @@
 	height: 500px;
 }
 </style>
+<script src="https://maps.googleapis.com/maps/api/js"></script>
+<script>
+	var map;
+	var once = 0;
+	function initialize() {
+		var mapCanvas = document.getElementById('map-canvas');
+		var mapOptions = {
+			center : new google.maps.LatLng(22.697817, 72.889977),
+			zoom : 10,
+			mapTypeId : google.maps.MapTypeId.ROADMAP
+		};
+		map = new google.maps.Map(mapCanvas, mapOptions);
+		//	var location = new google.maps.LatLng(22.697817,72.889977);
+		//var marker=new google.maps.Marker({
+		//  position: location,
+		//		});
+		//	marker.setMap(map);
+	}
+	function add(lat, longi) {
+		if (once == 0) {
+			initialize();
+		}
+		once = 1;
+		var location = new google.maps.LatLng(lat, longi);
+		var marker = new google.maps.Marker({
+			position : location,
+		});
+		marker.setMap(map);
+	}
+	//add(22.697817,72.889977);
 
-
+	//google.maps.event.addDomListener(window, 'load', initialize);
+</script>
 </head>
 <body>
 	<%@ include file="header.jsp"%>
