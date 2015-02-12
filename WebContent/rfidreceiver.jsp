@@ -40,7 +40,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Manage rfid receiver</title>
+<title>Manage Message content</title>
 <%@ include file="links.jsp"%>
 <style>
 #map-canvas {
@@ -163,7 +163,7 @@
 										</tr>
 										<tr>
 											<td><div class="field" style="margin-left: 20px">
-													<select name="state" onChange="showCity();" id="state"
+													<select name="state" onchange="showCity();" id="state"
 														class="login">
 														<%
 															rs = st.executeQuery("SELECT state_id,state_name FROM state_info");

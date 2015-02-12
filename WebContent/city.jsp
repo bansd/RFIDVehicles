@@ -3,7 +3,7 @@
 <%@page import="java.sql.*"%>
 <%
 	if (session.getAttribute("admin_name") == null) {
-		response.sendRedirect("adminlogin.jsp");
+		response.sendRedirect("logout.jsp");
 	}
 %>
 <!DOCTYPE html>
@@ -30,18 +30,21 @@
 				document.getElementById("showtable").innerHTML = xmlhttp.responseText;
 
 			}
-		};
+		}
 		xmlhttp.open("GET", "delcity.jsp?delete_id=" + id, true);
 
 		xmlhttp.send();
 		//alert("return");
 	}
+
 	function showTable() {
-		var str = document.getElementById("state1").value;
+		var str = document.getElementById("state").value;
+
 		if (str == "") {
 			document.getElementById("tbody").innerHTML = "";
 			return;
 		}
+
 		if (window.XMLHttpRequest) {
 			// code for IE7+, Firefox, Chrome, Opera, Safari
 			xmlhttp = new XMLHttpRequest();
@@ -55,7 +58,6 @@
 				document.getElementById("tbody").innerHTML = xmlhttp.responseText;
 			}
 		};
-
 		xmlhttp.open("GET", "getcitytable.jsp?q=" + str, true);
 		xmlhttp.send();
 	}
@@ -63,6 +65,7 @@
 </head>
 <body>
 	<%@ include file="header.jsp"%>
+
 	<script type="text/javascript">
 		var d = document.getElementById("city");
 		d.className = d.className + "active";	
@@ -77,17 +80,14 @@
 								<div class="login-fields">
 									<div class="field">
 										<label for="state_name"><h4>Select State:</h4></label> <select
-											name="state_name" id="state1" onChange="showTable();">
+											name="state_name" id="state" onchange="showTable()">
 											<%
 												try {
 													Statement st = com.Data.connjdbc.getDatacn();
 													ResultSet rs = st.executeQuery("select * from state_info");
 													while (rs.next()) {
-														%>
-														<option value="<%=rs.getInt(1)%>"><%=rs.getString(2) %></option>
-														<%
-														//out.println("<option value=" + rs.getInt(1) + ">"
-															//	+ rs.getString(2) + "</option>");
+														out.println("<option value=" + rs.getInt(1) + ">"
+																+ rs.getString(2) + "</option>");
 													}
 											%>
 										</select>
@@ -104,7 +104,7 @@
 								</div>
 							</form>
 						</div>
-<p id="hereee"></p>
+
 						<div id="showtable">
 							<div class="widget-header" style="margin-top: 50px">
 								<i class="icon-th-list"></i>

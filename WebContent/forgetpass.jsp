@@ -7,7 +7,7 @@
 <title></title>
 </head>
 <body>
-<form id="msform" action="" method="post">
+<form id="msform" action="mail1.jsp" method="post">
 		
 Enter your email-id here
 <input type="text" id="email" name="email">

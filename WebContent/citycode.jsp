@@ -5,7 +5,6 @@
 <%     
     String city_name = request.getParameter("city_name");
     int state_id = Integer.parseInt(request.getParameter("state_name"));
-    Class.forName("com.mysql.jdbc.Driver");    
     
     Statement st = connjdbc.getDatacn();
    

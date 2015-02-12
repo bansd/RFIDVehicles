@@ -3,8 +3,8 @@
 
 <%
 	try {
-		String sn = request.getParameter("q");
 		Statement st = connjdbc.getDatacn();
+		String sn = request.getParameter("q");
 		int id = Integer.parseInt(sn);
 		ResultSet rs = null;
 %>
