@@ -109,13 +109,13 @@
 	}
 
 	function showCity() {
-		var str = document.getElementById("state").value;
+		var str = document.getElementById("state2").value;
 		var id =
 <%=location%>
 	;
 
 		if (str == "") {
-			document.getElementById("city").innerHTML = "";
+			document.getElementById("city12").innerHTML = "";
 			return;
 		}
 
@@ -129,7 +129,7 @@
 
 		xmlhttp.onreadystatechange = function() {
 			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-				document.getElementById("city").innerHTML = xmlhttp.responseText;
+				document.getElementById("city12").innerHTML = xmlhttp.responseText;
 			}
 		};
 		xmlhttp.open("GET", "getrfidcity.jsp?q=" + str + "&city=" + id, true);
@@ -141,7 +141,7 @@
 	<%@ include file="header.jsp"%>
 	<script type="text/javascript">
 		var d = document.getElementById("rfid");
-		d.className = d.className + "active";	
+		d.className = d.className + "active";
 	</script>
 
 	<div class="main-inner" style="width: 100%;">
@@ -149,7 +149,8 @@
 			<div class="row" style="width: 100%;">
 				<div class="span6" style="width: 100%;">
 					<div class="widget widget-nopad" style="width: 100%;">
-						<div style="float: right; width: 60%; margin-right:20px;" id="map-canvas"></div>
+						<div style="float: right; width: 60%; margin-right: 20px;"
+							id="map-canvas"></div>
 						<div style="float: left; margin-left: 50px; width: 30%">
 							<form action="rfidreceivercode.jsp" method="post">
 
@@ -163,7 +164,7 @@
 										</tr>
 										<tr>
 											<td><div class="field" style="margin-left: 20px">
-													<select name="state" onchange="showCity();" id="state"
+													<select name="state" onchange="showCity();" id="state2"
 														class="login">
 														<%
 															rs = st.executeQuery("SELECT state_id,state_name FROM state_info");
@@ -186,7 +187,7 @@
 										<tr>
 											<td>
 												<div class="field" style="margin-left: 20px">
-													<div id="city">
+													<div id="city12">
 														<select name="city" class="login">
 															<%
 																if (check > 0) {
@@ -206,8 +207,10 @@
 															%>
 														</select>
 													</div>
-												</div></td></tr>
-										
+												</div>
+											</td>
+										</tr>
+
 										<tr>
 											<td><div class="field" style="margin-left: 20px">
 													<b><label for="range">RFID Receiver Range:</label></b> <input
