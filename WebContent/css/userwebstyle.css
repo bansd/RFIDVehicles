@@ -197,9 +197,9 @@ header {
 }
 
 .wrap-header #logo {
-	position: absolute;
+	position: relative;
 	float:left;
-	top: 30px;
+	top:0px;
 	height: 40px;
 	width: 100%;
 	font-size: 30px;
@@ -221,7 +221,7 @@ header {
 }
 
 .wrap-pagetop #search {
-	position: absolute;
+	position: relative;
 	top: 7px;
 	right: 10px;
 	width: 208px;
@@ -229,7 +229,7 @@ header {
 }
 
 .wrap-pagetop .button-search {
-	position: absolute;
+	position: relative;
 	left: 0px;
 	background: url('../images/button-search.png') center center no-repeat;
 	width: 28px;
@@ -251,7 +251,7 @@ header {
 }
 
 .wrap-pagetop .shareicons {
-	position: absolute;
+	position: relative;
 	top: 5px;
 	left: 5px;
 }
@@ -269,9 +269,9 @@ header {
 
 /*------------navigation and pagination */
 nav {
-	position: absolute;
-	top: 80px;
-	right: 20px;
+	position: relative;
+	top:10px;
+	right:0px;
 	height: 37px;
 }
 
@@ -300,8 +300,7 @@ nav ul li:hover,nav ul li.current {
 
 nav ul li:hover a,nav ul li.current a {
 	color: white;
-	background-color:#bfe9d3;
-	
+	background-color: #bfe9d3;
 }
 
 nav ul li a {
@@ -460,6 +459,12 @@ nav ul li:hover a {
 	width: 250px;
 }
 
+#main-content .comment select {
+	border: 2px solid #999999;
+	padding: 8px 10px;
+	width: 250px;
+}
+
 #main-content .comment textarea {
 	border: 2px solid #999999;
 	padding: 8px 10px;
@@ -557,6 +562,72 @@ nav ul li:hover a {
 #sidebar .content .post p {
 	color: #A3A3A3;
 	font-style: italic;
+}
+.info table{	
+	margin-top:10px;
+	margin-bottom:20px;
+	margin-left:5px;
+	margin-right:5px;
+	width:100%;
+	border-style: solid;
+	border-color: #27ae60;
+	
+}
+
+.vinfo{
+	background:#27ae60;
+	margin-top:10px;
+	width:100%;
+	font-size: x-large;
+	font-family:sans-serif;
+	padding-bottom: 10px;
+	padding-top: 10px;
+	padding-left:0px;
+	margin-left: 5px;
+	
+}
+.vborder{
+	border-style: solid;
+	border-color: #27ae60;	
+	margin-left: 20px;
+	margin-right:15px;
+}
+
+.info thead td{
+	padding: 5px;
+	font-size: x-large;
+	font-family:sans-serif;	
+	margin-bottom: 10px;
+	width:100%;
+	background-color: #27ae60;
+}
+.info td{
+	padding: 5px;
+	font-size:medium;
+	font-family:sans-serif;	
+	margin-bottom: 10px;
+	width: 200px;
+}
+.info input{
+	padding: 5px;
+	font-size:medium;
+	font-family:sans-serif;
+	border: 1px solid #ccc;
+	border-radius: 3px;
+	margin-bottom: 10px;
+	width: 300px;
+	box-sizing: border-box;	
+}
+
+.info select{
+	padding: 5px;
+	font-size:medium;
+	font-family:sans-serif;
+	border: 1px solid #ccc;
+	border-radius: 3px;
+	margin-bottom: 10px;
+	width: 300px;
+	box-sizing: border-box;	
 }
 
 /*------------footer */

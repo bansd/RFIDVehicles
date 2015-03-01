@@ -172,7 +172,7 @@ font-color: #ffffff;
 	font-size: 13px;
 }
 /*buttons*/
-#msform .action-button {
+#msform .action-button, #msform .submit {
 	width: 100px;
 	background: #27AE60; 
 	font-weight: bold;
@@ -184,7 +184,7 @@ font-color: #ffffff;
 	margin: 10px 5px;
 }
 
-#msform .action-button:hover, #msform .action-button:focus {
+#msform .action-button:hover, #msform .action-button:focus, #msform .submit:hover, #msform .submit:FOCUS {
 	box-shadow: 0 0 0 2px white, 0 0 0 3px #27AE60;
 }
 /*headings*/
